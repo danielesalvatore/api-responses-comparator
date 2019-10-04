@@ -1,0 +1,24 @@
+{
+  "name": "node-tester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fetch:master": "node ./src/fetch.js",
+    "compare": "node ./src/compare.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://danielesalvatorefao@bitbucket.org/cioapps/api-responses-comparator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/cioapps/api-responses-comparator#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "csvtojson": "^2.0.10",
+    "deep-diff": "^1.0.2",
+    "dotenv": "^8.0.0"
+  }
+}
