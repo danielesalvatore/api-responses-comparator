@@ -6,17 +6,17 @@ const axios = require('axios')
 // Env file configuration
 require('dotenv').config()
 
-module.exports.fetch = async ({url}) => {
-  const {TOKEN} = process.env
-
+module.exports.fetch = async ({url, authorizationToken}) => {
   try {
     // Add request headers
     const headers = {
-      'Content-Type': 'application/json',
+      //'Content-Type': 'application/json',
+      //Accept: 'application/json, text/javascript, */*; q=0.01',
     }
-    if (!!TOKEN) {
-      headers.Authorization = `${TOKEN}`
+    if (!!authorizationToken) {
+      headers.Authorization = authorizationToken
     }
+
     const response = await axios.get(url, {
       headers,
     })
@@ -28,18 +28,33 @@ module.exports.fetch = async ({url}) => {
   }
 }
 
-module.exports.createFilePath = ({file}) => {
-  const {OUTPUT_FOLDER} = process.env
+const sanitize = name => name.replace(/[^a-z0-9]/gi, '_').toLowerCase()
+module.exports.sanitizeFileName = sanitize
 
-  const OUTPUT_PATH = path.resolve(OUTPUT_FOLDER)
+module.exports.createOutputFilePath = ({file}) => {
+  const {RESPONSES_OUTPUT_FOLDER} = process.env
 
-  const OUTPUT = `${OUTPUT_PATH}/${file}`
+  const OUTPUT_PATH = path.resolve(RESPONSES_OUTPUT_FOLDER)
+  const safeFileName = sanitize(file)
+
+  const OUTPUT = `${OUTPUT_PATH}/${safeFileName}`
+
+  return OUTPUT
+}
+
+module.exports.createDifferencesFilePath = ({file}) => {
+  const {DIFFERENCES_OUTPUT_FOLDER} = process.env
+
+  const OUTPUT_PATH = path.resolve(DIFFERENCES_OUTPUT_FOLDER)
+  const safeFileName = sanitize(file)
+
+  const OUTPUT = `${OUTPUT_PATH}/${safeFileName}`
 
   return OUTPUT
 }
 
 module.exports.writeToFile = ({file, content}) => {
-  fs.writeFileSync(file, JSON.stringify(content))
+  fs.writeFileSync(file, JSON.stringify(content, null, 4))
 }
 
 module.exports.loadFileContent = ({file}) => {
