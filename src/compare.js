@@ -30,9 +30,8 @@ const init = async () => {
       accept: SECONDARY_API_ACCEPT_HEADER,
     })
     const localContent = U.loadFileContent({file})
-
-    if (JSON.stringify(liveContent) != JSON.stringify(localContent)) {
-      const differences = diff(liveContent, localContent)
+    const differences = diff(liveContent, localContent)
+    if (differences) {
       const differencesFile = U.createDifferencesFilePath({file: url})
 
       await U.writeToFile({
