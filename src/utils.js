@@ -6,17 +6,26 @@ const axios = require('axios')
 // Env file configuration
 require('dotenv').config()
 
-module.exports.fetch = async ({url, authorizationToken}) => {
+module.exports.fetch = async ({url, authorizationToken, awsApiKey, contentType, accept}) => {
   try {
     // Add request headers
-    const headers = {
-      //'Content-Type': 'application/json',
-      //Accept: 'application/json, text/javascript, */*; q=0.01',
-    }
+    const headers = {}
+
     if (!!authorizationToken) {
       headers.Authorization = authorizationToken
     }
 
+    if (!!awsApiKey) {
+      headers['x-api-key'] = awsApiKey
+    }
+
+    if (!!contentType) {
+      headers['Content-Type'] = contentType
+    }
+
+    if (!!accept) {
+      headers['Accept'] = accept
+    }
     const response = await axios.get(url, {
       headers,
     })
