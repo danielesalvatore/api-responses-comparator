@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "fetch:master": "node ./src/fetch.js",
+    "precompare" : "npm run fetch:master",
     "compare": "node ./src/compare.js"
   },
   "repository": {
